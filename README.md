@@ -3,7 +3,7 @@
 En el marco de un trabajo practico de la materia Algoritmos y Estructuras de datos I nos fue propuesto implementar una serie de funciones basadas en el famoso juego buscaminas.
 En primera instancia tuvimos que hacer la especificacion de cada funcion en logica de primer orden, para luego pasar a su implementacion en C++. Puede encontrarse en el archivo espeficacion.pdf
 
-Cada funcion tiene sus respectivo test suite con un cubrimiento de al menos del 95% de las lineas, incluyendo tambien casos borde.
+Cada funcion tiene su respectivo test suite con un cubrimiento de al menos del 95% de las lineas, incluyendo tambien casos borde.
 
 ## Tests
 
