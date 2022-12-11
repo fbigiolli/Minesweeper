@@ -1,10 +1,5 @@
-//
-// Este archivo contiene las definiciones de las funciones que implementan los ejercicios
-//
-
 #include <stdio.h>
 #include <iostream>
-
 
 #include "definiciones.h"
 #include "ejercicios.h"
@@ -12,28 +7,26 @@
 
 using namespace std;
 
-/******++++**************************** EJERCICIO minasAdyacentes ***********+++***********************/
+/******++++**************************** minasAdyacentes ***********+++***********************/
 
-int minasAdyacentes(tablero& t, pos p) { //Complejidad Constante.
+int minasAdyacentes(tablero& t, pos p) { // O(1)
     int sumaMinas = 0;
     int minaCentral = minaEnPosicion(t,p);
     for (int i = p.first-1; i <= p.first+1 ; ++i) {
-        for (int j = p.second-1; j <=p.second+1 ; ++j) { // el doble for siempre recorre 3*3 = 9, por lo que su complejidad es constante.
+        for (int j = p.second-1; j <=p.second+1 ; ++j) { // recorre todos los casilleros adyacentes y el central, suma el total de minas
             pos pCiclo;
             pCiclo.first = i;
             pCiclo.second = j;
             sumaMinas += minaEnPosicion(t,pCiclo);
         }
     }
-    return sumaMinas-minaCentral;
+    return sumaMinas-minaCentral; // en caso de que hubiera una mina en la pos central, la resta.
 
-    // NOTA: el uso de la funcion auxiliar minaEnPosicion() es por lo menos sospechosa (y dificulta la comprension de lo que estan haciendo). Realmente la necesitan?
-    // NOTA: ahi entendi que lo que hacen es sumar las 9 posiciones y restarle 1 si hay una mina. Entiendo que funciona, pero me sigue pareciendo innecesariamente complejo
 }
 
-/******++++**************************** EJERCICIO plantarBanderita ***********+++***********************/
+/******++++**************************** plantarBanderita ***********+++***********************/
 
-void cambiarBanderita(tablero& t, jugadas& j, pos p, banderitas& b) { // Complejidad lineal
+void cambiarBanderita(tablero& t, jugadas& j, pos p, banderitas& b) { // O(|b|)
     if (contieneBanderita(b,p,t)){
         b.erase(b.begin()+ indice(b,p));
     }
@@ -41,12 +34,10 @@ void cambiarBanderita(tablero& t, jugadas& j, pos p, banderitas& b) { // Complej
         b.push_back(p);
     }
 }
-/* La complejidad es lineal ya que depende unicamente de la longitud de banderitas. El peor caso es el que
- * recorre banderitas entero y encuentra en la ultima posicion la banderita, ya que vuelve a recorrer la secuencia
- * para encontrar el indice de la banderita. En ese caso tenemos complejidad 2n, siendo n la longitud de banderitas, es decir, lineal.*/
 
-/******++++**************************** EJERCICIO perdio ***********+++***********************/
-bool perdio(tablero& t, jugadas& j) { // Complejidad lineal
+/******++++**************************** perdio ***********+++***********************/
+
+bool perdio(tablero& t, jugadas& j) { // O(|j|)
     bool res = false;
     int i = 0;
     while(i<j.size() && !res) {
@@ -60,37 +51,27 @@ bool perdio(tablero& t, jugadas& j) { // Complejidad lineal
     return res;
 }
 
-/* Tiene complejidad lineal, ya que la funcion se encarga de recorrer toda la secuencia de jugadas para fijarse si en esa posicion
- * del tablero hay una mina. Por lo tanto, su complejidad depende del largo de jugadas, ya que siempre la recorre entera */
+/******++++**************************** gano ***********+++***********************/
 
-/******++++**************************** EJERCICIO gano ***********+++***********************/
-/* la precondicion nos asegura que no hay jugadas repetidas, y que todas las jugadas son validas.
- Por lo tanto, damos por hecho que no hay jugadas repetidas, por lo que para ganar necesitamos
- la misma cantidad de jugadas que de casilleros sin minas en el tablero*/
+// asumimos que no hay hechas jugadas repetidas. 
 
-bool gano(tablero& t, jugadas& j) { // Complejidad n^2 (cuadratica)
+bool gano(tablero& t, jugadas& j) { // O(|t|^2) 
     bool res = false;
     int cantidadSinMinas=0;
     for (int i = 0; i < t.size(); ++i) {
-        for (int h = 0; h < t[0].size(); ++h) {
+        for (int h = 0; h < t[0].size(); ++h) { // contamos la cantidad de casillas sin minas en el tablero
             if (t[i][h] == false){
                 cantidadSinMinas+=1;
             }
         }
     }
-    if (j.size() == cantidadSinMinas && !perdio(t,j)) {
+    if (j.size() == cantidadSinMinas && !perdio(t,j)) { // si la cantidad de casillas sin minas coincide con las de jugadas, gano.
         res = true;
     }
     return res;
 }
 
-/* Tiene complejidad cuadratica, ya que para cada fila, itera sobre todas las columnas. De esta forma, itera n columnas
- * por cada n filas, dando como resultado n*n = n^2. (ya que el tablero siempre es cuadrado). No hay peor caso ya que
- * nuestra implentacion recorre el tablero entero siempre para contar la cantidad sin minas. */
-
-/******++++**************************** EJERCICIO jugarPlus ***********+++***********************/
-// O((|j| + |b|)*(|t|^2)) ya que en el peor caso, que es el tablero sin minas, recorreria un cuadrado de
-// 3*3 por cada casillero adyacente a lo largo de todo el tablero, y a su vez por cada iteracion recorre la longitud de jugadas y de banderitas.
+/******++++**************************** jugarPlus ***********+++***********************/
 
  void jugarPlus(tablero& t, banderitas& b, pos p, jugadas& j) { // O((|j| + |b|)*|t|^2))
     if ( t[p.first][p.second]== 1 ){ // si hay una mina la agrega a jugadas y al pisar una mina termina el juego. O(1)
@@ -117,7 +98,9 @@ bool gano(tablero& t, jugadas& j) { // Complejidad n^2 (cuadratica)
         }
     }
 }
-/******++++**************************** EJERCICIO sugerirAutomatico121 ***********+++***********************/
+
+/******++++**************************** sugerirAutomatico121 ***********+++***********************/
+
 bool sugerirAutomatico121(tablero& t, banderitas& b, jugadas& j, pos& p) { // O(|j|^2 + |j| * |b|)
     bool res = false;
     for (int i = 0; i < j.size(); ++i) {
@@ -145,6 +128,3 @@ bool sugerirAutomatico121(tablero& t, banderitas& b, jugadas& j, pos& p) { // O(
     }
     return res;
 }
-
-/*En el peor caso de sugerirAutomatico121 nos encontramos que por cada iteracion del for volvemos a recorrer jugadas 8 veces para chequear cada if. Por lo tanto, tenemos complejidad
- * |j|*8(|j| +|b|),  Ya que a su vez, en cada una de las 8 iteraciones recorre tambien la secuencia de banderitas. */

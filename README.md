@@ -1,32 +1,35 @@
-﻿# Tests
+﻿# Minesweeper
 
-Para correr los tests vamos a usar el framework Google Test.
+En el marco de un trabajo practico de la materia Algoritmos y Estructuras de datos I nos fue propuesto implementar una serie de funciones basadas en el famoso juego buscaminas.
+En primera instancia tuvimos que hacer la especificacion de cada funcion en logica de primer orden, para luego pasar a su implementacion en C++.
 
-Cada test tiene que ir en una función separada, y las funciones tienen que
-definirse de la siguiente manera:
+Cada funcion tiene sus respectivo test suite con un cubrimiento de al menos del 95% de las lineas, incluyendo tambien casos borde.
 
-TEST(nombreDelConjunto, nombreDelTest) {
-   // ...
-   // aca va el código del test
-}
+## Tests
 
-Adentro de las funciones de test se deben usar las funciones ASSERT_*, 
-que terminan el test con un error si no se cumple la condicion. Las 
-funciones existentes son:
+Para correr los tests usamos el framework Google Test. La funcion main esta definida de tal forma que se corran todos los tests.
 
-- ASSERT_EQ(x1, x2): (equal): x1 debe ser igual a x2
-- ASSERT_NE(x1, x2): (not equal): x1 no debe ser igual a x2
-- ASSERT_LT(x1, x2): (lower than): x1 debe ser menor a x2
-- ASSERT_LE(x1, x2): (lower or equal than): x1 debe ser menor o igual a x2
-- ASSERT_GT(x1, x2): (greater than): x1 debe ser mayor a x2
-- ASSERT_GE(x1, x2): (lower or equal than): x1 debe ser mayor o igual a x2
+## minasAdyacentes
 
-Para números de punto flotante, se deben utilizar funciones específicas:
+Como su nombre lo indica, esta funcion se encarga de contar la cantidad de minas adyacentes dado un casillero. Es utilizada luego en otras funciones.
 
-- ASSERT_FLOAT_EQ(x1, x2)
-- ASSERT_DOUBLE_EQ(x1, x2)
+## cambiarBanderita
 
-Finalmente, para una condición binaria, se puede utilizar:
+Dado un casillero, en caso de que no haya una banderita se planta una en el, y en caso de que si haya una banderita se remueve.
 
-- ASSERT_TRUE(expr)
-- ASSERT_FALSE(expr)
+## perdio
+
+Dado un tablero y una secuencia de jugadas realizadas, esta funcion devuelve como resultado true en caso de que el jugador haya perdido el juego.
+
+## gano
+
+Dado un tablero y una secuencia de jugadas realizadas, esta funcion devuelve como resultado true en caso de que el jugador haya ganado el juego.
+
+## jugarPlus
+
+Cuando estamos jugando al buscaminas y apretamos una casilla que tiene un camino sin minas a su alrededor este se despeja automaticamente. Esta funcion se encarga de eso.
+
+## sugerirAutomatico121 
+
+En el buscaminas hay un patron llamado 121 que nos permite hacer una jugada con la certeza de que no pisaremos una mina. Dados un tablero, una secuencia de jugadas y una secuencia de banderitas plantadas esta funcion se encarga de sugerirnos una posicion para jugar
+de modo que no perdamos, siempre que sea posible encontrar un patron 121 ya sea vertical u horizontal. 
