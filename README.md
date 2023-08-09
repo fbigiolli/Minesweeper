@@ -35,7 +35,7 @@ En el buscaminas hay un patron llamado 121 que nos permite hacer una jugada con 
 de modo que no perdamos, siempre que sea posible encontrar un patron 121 ya sea vertical u horizontal. 
 
 ## Autores
-@fbigiolli
-@lucaveron
-@winga35
-@juaninaki
+- [@fbigiolli](https://github.com/fbigiolli/sistemaVentas)
+- [@lucaveron](https://github.com/lucaveron)
+- [@winga35](https://github.com/winga35)
+- [@juaninaki](https://github.com/juaninaki)
